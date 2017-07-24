@@ -1,0 +1,183 @@
+<div class="row">
+      <div class="page-header">
+        <h1>Contactos</h1>
+      </div>
+    </div>
+    <div class="alert alert-info" *ngIf="notificacion.estado">
+      <strong>Info!</strong>{{notificacion.mensaje}}
+    </div>
+    <!-- Modal -->
+    <div id="modificarContacto" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modificar contacto</h4>
+            <h4></h4>
+          </div>
+          <div class="modal-body">
+            <form #formularioContacto="ngForm" (ngSubmit)="editar()">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su nombre"
+                [(ngModel)]="model.nombre"
+                name="nombre">
+              </div>
+              <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su apellido"
+                [(ngModel)]="model.apellido"
+                name="apellido">
+              </div>
+              <div class="form-group">
+                <label>Direccion</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su direccion"
+                [(ngModel)]="model.direccion"
+                name="direccion">
+              </div>
+              <div class="form-group">
+                <label>Telefono</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su telefono"
+                [(ngModel)]="model.telefono"
+                name="telefono">
+              </div>
+              <div class="form-group">
+                <label>Categoria</label>
+                <select class="form-control"
+                name="idCategoria"
+                [(ngModel)]="model.idCategoria">
+                  <option *ngFor="let cat of categoriaService.categorias" value="{{cat.idCategoria}}" >{{cat.nombreCategoria}}</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            </form>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='resetForm'>Cancelar</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+            <!-- Modal -->
+            <div id="agregarContacto" class="modal fade" role="dialog">
+              <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Agregar</h4>
+                    <h4></h4>
+                  </div>
+                  <div class="modal-body">
+            <form #formularioAgregar="ngForm" (ngSubmit)="agregar()">
+              <div class="form-group">
+                <label>Nombre</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su nombre"
+                [(ngModel)]="model.nombre"
+                name="nombre">
+              </div>
+              <div class="form-group">
+                <label>Apellido</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su apellido"
+                [(ngModel)]="model.apellido"
+                name="apellido">
+              </div>
+              <div class="form-group">
+                <label>Direccion</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su direccion"
+                [(ngModel)]="model.direccion"
+                name="direccion">
+              </div>
+              <div class="form-group">
+                <label>Correo</label>
+                <input type="email" class="form-control"
+                placeholder="Ingrese su direccion"
+                [(ngModel)]="model.correo"
+                name="correo">
+              </div>
+              <div class="form-group">
+                <label>Telefono</label>
+                <input type="text" class="form-control"
+                placeholder="Ingrese su telefono"
+                [(ngModel)]="model.telefono"
+                name="telefono">
+              </div>
+              <div class="form-group">
+                <label>Categoria</label>
+                <select class="form-control"
+                name="idCategoria"
+                [(ngModel)]="model.idCategoria">
+                  <option *ngFor="let cat of categoriaService.categorias" value="{{cat.idCategoria}}" >{{cat.nombreCategoria}}</option>
+                </select>
+              </div>
+              <div class="form-group">
+                  <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <!-- Modal -->
+  <div class="modal fade" id="eliminar" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Desea eliminar</h4>
+        </div>
+        <div class="modal-body">
+          <div style="margin-left: 70px">
+            <div>
+              <button type="button" class="btn-group btn btn-primary outline" data-dismiss="modal" (click)="eliminar()">Si</button>
+              <button type="button" class="btn-group btn btn-default" data-dismiss="modal" (click)="resetForm()">No</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="card-columns">
+  <div class="card" *ngFor="let contacto of contactoService.contactos">
+    <div class="card-block card-inverse card-primary mb-3 text-center">
+      <div>
+        <img [src]="contacto.stringFoto">
+      </div>
+      <h4 class="card-title">{{ contacto.nombre }}</h4>
+      <p class="card-text">{{ contacto.nombre + " " + contacto.apellido}}</p>
+      <p class="card-text">{{ contacto.telefono}}</p>
+      <footer>
+        <div class="btn-group">
+          <button
+          [routerLink]="['/dashboard/contacto', contacto.idContacto]"
+          class="btn btn-outline-info">
+            Ver mas
+          </button>
+          <button class="btn btn-outline-warning" (click)="cargar(contacto)"
+                   data-toggle="modal" data-target="#modificarContacto">Editar</button>
+          <button class="btn btn-outline-danger" data-toggle="modal" (click)="cargar(contacto)" data-target="#eliminar">Eliminar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+<button class="btn btn-outline-warning" (click)="agregar()"
+         data-toggle="modal" data-target="#agregarContacto">Agregar</button>

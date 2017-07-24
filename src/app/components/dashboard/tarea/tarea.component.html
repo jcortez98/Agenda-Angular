@@ -1,0 +1,191 @@
+<div class="row">
+  <button class="btn btn-primary" data-toggle="modal" data-target="#agregar">Agregar Tarea</button>
+</div>
+<div class="card-columns">
+  <div class="card" *ngFor="let variable of tareaService.tareas">
+    <div class="card-block">
+      <h4 class="card-title">{{ variable.nombre }}</h4>
+      <p class="card-text">{{ variable.nombreCategoria+" Entrega: "+ variable.fecha}}</p>
+      <span class="card-text label label-danger" *ngIf="variable.prioridad == Alta">{{ variable.prioridad}}</span>
+      <span class="card-text label label-warning" *ngIf="variable.prioridad == Intermedio">{{ variable.prioridad}}</span>
+      <span class="card-text label label-default" *ngIf="variable.prioridad == Bajo">{{ variable.prioridad}}</span>
+      <footer>
+        <div class="btn-group">
+          <button
+          class="btn btn-outline-info" (click)="cargar(variable)" data-toggle="modal" data-target="#detalles">
+            Ver mas...
+          </button>
+          <button class="btn btn-outline-warning" (click)="cargar(variable)"
+                   data-toggle="modal" data-target="#modificar">Editar</button>
+          <button class="btn btn-outline-danger" data-toggle="modal" (click)="cargar(variable)" data-target="#eliminar">Eliminar</button>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="modificar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+        <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modificar tarea</h4>
+        <h4></h4>
+      </div>
+      <div class="modal-body">
+        <form #formularioContacto="ngForm" (ngSubmit)="editar()">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.nombre"
+              name="nombre">
+          </div>
+          <div class="form-group">
+            <label>Descripcion</label>
+            <textarea  type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.descripcion"
+              name="descripcion"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="form-control"
+              placeholder="Ingrese fecha"
+              [(ngModel)]="model.fecha"
+              name="fecha">
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select class="form-control"
+              name="idCategoria"
+              [(ngModel)]="model.idCategoria">
+              <option *ngFor="let cat of categoriaService.categorias" value="{{cat.idCategoria}}" >{{cat.nombreCategoria}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Prioridad</label>
+            <select class="form-control"
+              name="idPrioridad"
+              [(ngModel)]="model.idPrioridad">
+              <option *ngFor="let cat of tareaService.prioridades" value="{{cat.idPrioridad}}" >{{cat.descripcion}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='resetForm'>Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="agregar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+        <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Agregar tarea</h4>
+        <h4></h4>
+      </div>
+      <div class="modal-body">
+        <form #formularioAgregrar="ngForm" (ngSubmit)="agregar()">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.nombre"
+              name="nombre">
+          </div>
+          <div class="form-group">
+            <label>Descripcion</label>
+            <textarea  type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.descripcion"
+              name="descripcion"></textarea>
+          </div>
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="form-control"
+              placeholder="Ingrese fecha"
+              [(ngModel)]="model.fecha"
+              name="fecha">
+          </div>
+          <div class="form-group">
+            <label>Categoria</label>
+            <select class="form-control"
+              name="idCategoria"
+              [(ngModel)]="model.idCategoria">
+              <option *ngFor="let cat of categoriaService.categorias" value="{{cat.idCategoria}}" >{{cat.nombreCategoria}}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Prioridad</label>
+            <select class="form-control"
+              name="idPrioridad"
+              [(ngModel)]="model.idPrioridad">
+              <option *ngFor="let cat of tareaService.prioridades" value="{{cat.idPrioridad}}" >{{cat.descripcion}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='resetForm'>Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="detalles" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+        <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Detalle de la tarea {{model.nombre}}</h4>
+        <h4></h4>
+      </div>
+      <div class="modal-body">
+        <label>{{model.fecha}}</label>
+        <br>
+        <label class="label label-primary">{{'Prioridad: '+model.nombrePrioridad}}</label>
+        <div class="container">
+          <p>{{model.descripcion}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='resetForm'>Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ <!-- Modal -->
+  <div class="modal fade" id="eliminar" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Desea eliminar</h4>
+        </div>
+        <div class="modal-body">
+          <div style="margin-left: 70px">
+            <div>
+              <button type="button" class="btn-group btn btn-primary outline" data-dismiss="modal" (click)="eliminar()">Si</button>
+              <button type="button" class="btn-group btn btn-default" data-dismiss="modal" (click)="resetForm()">No</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>

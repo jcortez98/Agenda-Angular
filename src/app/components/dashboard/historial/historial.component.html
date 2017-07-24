@@ -1,0 +1,19 @@
+<div class="row">
+  <div class="col-md-12">
+    <h2>Historial</h2>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Accion Realizada</th>
+          <th>Fecha/Hora</th>
+        </tr>
+      </thead>
+          <tbody *ngFor="let variable of contactoService.historial">
+        <tr>
+          <td>{{variable.accion}}</td>
+          <td>{{variable.fecha}}</td>
+        </tr>
+      </tbody>
+        </table>
+  </div>
+</div>

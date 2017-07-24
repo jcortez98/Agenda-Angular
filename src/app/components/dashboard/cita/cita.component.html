@@ -1,0 +1,160 @@
+<div class="row">
+  <div class="page-header">
+    <h1>Citas</h1>
+  </div>
+</div>
+<div>
+  <button class="btn btn-danger" data-toggle="modal" data-target="#agregar">Agregar</button>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Lugar</th>
+          <th>Descripcion</th>
+          <th>Contacto</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let variable of citaService.citas">
+        <tr>
+          <td>{{variable.fecha}}</td>
+          <td>{{variable.lugar}}</td>
+          <td>{{variable.descripcion}}</td>
+          <td>{{variable.nombre}}</td>
+          <td><div class="btn-group">
+            <button class="btn btn-warning"
+              (click)="cargar(variable)" data-toggle="modal" data-target="#modificar">Editar</button>
+            <button class="btn btn-danger" (click)="cargar(variable)" data-toggle="modal" data-target="#eliminar">Eliminar</button>
+          </div></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="modificar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+        <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modificar cita</h4>
+        <h4></h4>
+      </div>
+      <div class="modal-body">
+        <form #formularioEditar="ngForm" (ngSubmit)="editar()">
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="form-control"
+              placeholder="Ingrese fecha"
+              [(ngModel)]="model.fecha"
+              name="fecha">
+          </div>
+          <div class="form-group">
+            <label>Descripcion</label>
+            <input  type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.descripcion"
+              name="descripcion">
+          </div>
+          <div class="form-group">
+            <label>Lugar</label>
+            <input  type="text" class="form-control"
+              placeholder="Ingrese localidad"
+              [(ngModel)]="model.lugar"
+              name="lugar">
+          </div>
+          <div class="form-group">
+            <label>Contacto</label>
+            <select class="form-control"
+              name="idContacto"
+              [(ngModel)]="model.idContacto">
+              <option *ngFor="let cat of contactoService.contactos" value="{{cat.idContacto}}" >{{cat.nombre}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='resetForm'>Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="agregar" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+        <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Agregar cita</h4>
+        <h4></h4>
+      </div>
+      <div class="modal-body">
+        <form #formularioAgregrar="ngForm" (ngSubmit)="agregar()">
+          <div class="form-group">
+            <label>Fecha</label>
+            <input type="date" class="form-control"
+              placeholder="Ingrese fecha"
+              [(ngModel)]="model.fecha"
+              name="fecha">
+          </div>
+          <div class="form-group">
+            <label>Descripcion</label>
+            <input  type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.descripcion"
+              name="descripcion">
+          </div>
+          <div class="form-group">
+            <label>Lugar</label>
+            <input  type="text" class="form-control"
+              placeholder="Ingrese localidad"
+              [(ngModel)]="model.lugar"
+              name="lugar">
+          </div>
+          <div class="form-group">
+            <label>Contacto</label>
+            <select class="form-control"
+              name="idContacto"
+              [(ngModel)]="model.idContacto">
+              <option *ngFor="let cat of contactoService.contactos" value="{{cat.idContacto}}" >{{cat.nombre}}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)='resetForm'>Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="eliminar" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Desea eliminar la cita con {{model.nombre}}</h4>
+      </div>
+      <div class="modal-body">
+        <div style="margin-left: 70px">
+          <div>
+            <button type="button" class="btn-group btn btn-primary outline" data-dismiss="modal" (click)="eliminar()">Si</button>
+            <button type="button" class="btn-group btn btn-default" data-dismiss="modal" (click)="resetForm()">No</button>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>

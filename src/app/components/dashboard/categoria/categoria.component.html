@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="panel panel-primary" style="width: 450px">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Mis Categorias</div>
+        <div class="panel-body">
+          <p>...</p>
+        </div>
+
+        <!-- Table -->
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Descripcion</th>
+                <th>Opciones</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let variable of _categoriaS.categorias">
+              <tr>
+                <td>{{variable.nombreCategoria}}</td>
+                <td><div class="btn-group">
+                  <button class="btn btn-warning" (click)="cargar(variable)"
+                    data-toggle="modal" data-target="#modificarCategoria">Editar</button>
+                  <button class="btn btn-danger" data-toggle="modal" (click)="cargar(variable)" 
+                    data-target="#eliminar">Eliminar</button>
+                </div></td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="panel panel-success" style="width: 400px">
+        <div class="panel-heading">
+          <h3 class="panel-title">Agregar Categoria</h3>
+        </div>
+        <div class="panel-body">
+          <form (ngSubmit)="agregarCategoria(data)" #data="ngForm" >
+            <div class="form-group">
+              <label for="nombre">Nombre</label>
+              <input type="text"
+                  class="form-control"
+                  name="nombre"
+                  ngModel
+                  id="nombre" required/>
+            </div>
+            <div class="form-group">
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div id="modificarCategoria" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+  <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Editar</h4>
+        <h4></h4>
+      </div>
+      <div class="modal-body">
+        <form #formularioEditar="ngForm" (ngSubmit)="editar()">
+           <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" class="form-control"
+              placeholder="Ingrese su nombre"
+              [(ngModel)]="model.nombreCategoria"
+              name="nombreCategoria">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="resetFormulario()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Eliminar-->
+  <div class="modal fade" id="eliminar" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Desea eliminar: {{model.nombreCategoria}}</h4>
+        </div>
+        <div class="modal-body">
+          <div style="margin-left: 70px">
+            <p>Se eliminaran los contactos bum</p>
+            <div>
+              <button type="button" class="btn-group btn btn-primary outline" data-dismiss="modal" (click)="eliminar()">Si</button>
+              <button type="button" class="btn-group btn btn-default" data-dismiss="modal" (click)="resetFormulario()">No</button>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
